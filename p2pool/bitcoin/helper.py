@@ -15,6 +15,7 @@ def check(bitcoind, net):
         print >>sys.stderr, "    Check failed! Make sure that you're connected to the right bitcoind with --bitcoind-rpc-port!"
         raise deferral.RetrySilentlyException()
     
+    print 'Start check bitcoind net!a'
     version_check_result = net.VERSION_CHECK((yield bitcoind.rpc_getnetworkinfo())['version'])
     if version_check_result == True: version_check_result = None # deprecated
     if version_check_result == False: version_check_result = 'Coin daemon too old! Upgrade!' # deprecated
@@ -22,6 +23,7 @@ def check(bitcoind, net):
         print >>sys.stderr, '    ' + version_check_result
         raise deferral.RetrySilentlyException()
     
+    print 'Start check bitcoind net!b'
     try:
         blockchaininfo = yield bitcoind.rpc_getblockchaininfo()
         softforks_supported = set(item['id'] for item in blockchaininfo.get('softforks', []))
@@ -31,9 +33,12 @@ def check(bitcoind, net):
             softforks_supported |= set(item for item in blockchaininfo.get('bip9_softforks', []))
     except jsonrpc.Error_for_code(-32601): # Method not found
         softforks_supported = set()
+    
+    print 'Start check bitcoind net!c'
     if getattr(net, 'SOFTFORKS_REQUIRED', set()) - softforks_supported:
         print 'Coin daemon too old! Upgrade!'
         raise deferral.RetrySilentlyException()
+    print 'Start check bitcoind net!d'
 
 @deferral.retry('Error getting work from bitcoind:', 3)
 @defer.inlineCallbacks
