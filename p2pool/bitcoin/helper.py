@@ -10,6 +10,7 @@ from p2pool.util import deferral, jsonrpc
 @deferral.retry('Error while checking Bitcoin connection:', 1)
 @defer.inlineCallbacks
 def check(bitcoind, net):
+    print 'Start check bitcoind net!'
     if not (yield net.PARENT.RPC_CHECK(bitcoind)):
         print >>sys.stderr, "    Check failed! Make sure that you're connected to the right bitcoind with --bitcoind-rpc-port!"
         raise deferral.RetrySilentlyException()
