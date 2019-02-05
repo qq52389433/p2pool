@@ -52,6 +52,7 @@ class bitcoind(object): # can be used as p2p factory, p2p protocol, or rpc jsonr
         return '\ngetblock '
     
     def rpc_getblock(self, block_hash_hex):
+        print 'Start rpc_getblock!'
         block_hash = int(block_hash_hex, 16)
         return dict(height=self.blocks.index(block_hash))
     
