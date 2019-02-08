@@ -7,12 +7,12 @@ from .. import data, helper
 from p2pool.util import pack
 
 
-P2P_PREFIX = 'f9beb4d9'.decode('hex')
-P2P_PORT = 8333
+P2P_PREFIX = 'c0dbf1fd'.decode('hex')
+P2P_PORT = 35677
 ADDRESS_VERSION = 0
 RPC_PORT = 8332
 RPC_CHECK = defer.inlineCallbacks(lambda bitcoind: defer.returnValue(
-            (yield helper.check_genesis_block(bitcoind, '000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f')) and
+            (yield helper.check_genesis_block(bitcoind, '0007e5a233e96f7b8d2413060ec38cf73c6f201bdb72f97b3241cc8ac6950a81')) and
             (yield bitcoind.rpc_getblockchaininfo())['chain'] != 'test'
         ))
 SUBSIDY_FUNC = lambda height: 50*100000000 >> (height + 1)//210000
