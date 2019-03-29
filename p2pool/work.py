@@ -239,8 +239,10 @@ class WorkerBridge(worker_interface.WorkerBridge):
  
     def get_work(self, pubkey_hash, desired_share_target, desired_pseudoshare_target):
         global print_throttle
-        if (self.node.p2p_node is None or len(self.node.p2p_node.peers) == 0) and self.node.net.PERSIST:
-            raise jsonrpc.Error_for_code(-12345)(u'p2pool is not connected to any peers')
+        if (self.node.p2p_node is None) and self.node.net.PERSIST:
+            raise jsonrpc.Error_for_code(-12345)(u'p2pool is not connected to any peers node is None')
+        if (len(self.node.p2p_node.peers) == 0) and self.node.net.PERSIST:
+            raise jsonrpc.Error_for_code(-12345)(u'p2pool is not connected to any peers peers == 0')
         if self.node.best_share_var.value is None and self.node.net.PERSIST:
             raise jsonrpc.Error_for_code(-12345)(u'p2pool is downloading shares')
         if set(r[1:] if r.startswith('!') else r for r in self.node.bitcoind_work.value['rules']) - set(getattr(self.node.net, 'SOFTFORKS_REQUIRED', [])):
