@@ -108,10 +108,12 @@ class P2PNode(p2p.Node):
         def download_shares():
             print 'init download_shares\n'
             while True:
+                print 'init download_shares while a!\n'
                 desired = yield self.node.desired_var.get_when_satisfies(lambda val: len(val) != 0)
+                print 'init download_shares while b!\n'
                 peer_addr, share_hash = random.choice(desired)
                 
-                print 'init download_shares while!\n'
+                print 'init download_shares while c!\n'
 
                 if len(self.peers) == 0:
                     yield deferral.sleep(1)
