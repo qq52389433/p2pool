@@ -21,7 +21,7 @@ class P2PNode(p2p.Node):
         **kwargs)
     
     def handle_shares(self, shares, peer):
-        print 'init handle_shares\n'
+        print 'init handle_shares \n'
         if len(shares) > 5:
             print 'Processing %i shares from %s...' % (len(shares), '%s:%i' % peer.addr if peer is not None else None)
         
