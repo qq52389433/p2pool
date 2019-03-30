@@ -113,6 +113,7 @@ class P2PNode(p2p.Node):
                 
                 if len(self.peers) == 0:
                     yield deferral.sleep(1)
+                    print 'len(self.peers) == 0\n'
                     continue
                 peer = random.choice(self.peers.values())
                 
@@ -132,6 +133,7 @@ class P2PNode(p2p.Node):
                     log.err(None, 'in download_shares:')
                     continue
                 
+                print 'download_shares not shares!\n'
                 if not shares:
                     yield deferral.sleep(1) # sleep so we don't keep rerequesting the same share nobody has
                     continue
