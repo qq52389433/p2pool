@@ -51,6 +51,7 @@ class Event(object):
         once = self.once
         df = defer.Deferred()
         id1 = once.watch(lambda *event: df.callback(event))
+        print 'init get_deferred : end once.watch!\n'
         if timeout is not None:
             print 'init get_deferred timeout is not None'
             def do_timeout():
