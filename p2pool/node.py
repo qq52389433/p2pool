@@ -52,6 +52,7 @@ class P2PNode(p2p.Node):
     
     @defer.inlineCallbacks
     def handle_share_hashes(self, hashes, peer):
+        print 'init handle_share_hashes\n'
         new_hashes = [x for x in hashes if x not in self.node.tracker.items]
         if not new_hashes:
             return
@@ -104,6 +105,7 @@ class P2PNode(p2p.Node):
         @apply
         @defer.inlineCallbacks
         def download_shares():
+            print 'init download_shares\n'
             while True:
                 desired = yield self.node.desired_var.get_when_satisfies(lambda val: len(val) != 0)
                 peer_addr, share_hash = random.choice(desired)
