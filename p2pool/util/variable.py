@@ -79,7 +79,9 @@ class Variable(object):
     
     @defer.inlineCallbacks
     def get_when_satisfies(self, func):
+        print 'init get_when_satisfies'
         while True:
+            print 'init get_when_satisfies while!'
             if func(self.value):
                 defer.returnValue(self.value)
             yield self.changed.once.get_deferred()
