@@ -131,6 +131,7 @@ def _discover_multicast():
         for i in xrange(3):
             p.transport.write(nonce, ('239.255.255.250', port))
         
+        print 'init address_received.get_deferred'
         address, = yield p.address_received.get_deferred(5)
     finally:
         mcast.stopListening()

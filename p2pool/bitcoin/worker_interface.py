@@ -78,6 +78,7 @@ class WorkerInterface(object):
             else:
                 if p2pool.DEBUG:
                     print 'POLL %i WAITING' % (id,)
+                print 'new_block.get_deferred POLL %i WAITING' % (id,)
                 yield self.worker_bridge.new_work_event.get_deferred()
             self.worker_views[request_id] = self.worker_bridge.new_work_event.times
         

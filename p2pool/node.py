@@ -195,6 +195,7 @@ class Node(object):
         @defer.inlineCallbacks
         def work_poller():
             while stop_signal.times == 0:
+                print 'new_block.get_deferred'
                 flag = self.factory.new_block.get_deferred()
                 try:
                     self.bitcoind_work.set((yield helper.getwork(self.bitcoind, self.bitcoind_work.value['use_getblocktemplate'])))
