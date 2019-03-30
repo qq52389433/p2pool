@@ -175,6 +175,7 @@ class Node(object):
     
     @defer.inlineCallbacks
     def start(self):
+        print 'node start!!!\n'
         stop_signal = variable.Event()
         self.stop = stop_signal.happened
         
