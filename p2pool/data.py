@@ -506,7 +506,6 @@ class OkayTracker(forest.Tracker):
             return True
     
     def think(self, block_rel_height_func, previous_block, bits, known_txs):
-        print 'init best_share think!'
         desired = set()
         bad_peer_addresses = set()
         
@@ -579,7 +578,12 @@ class OkayTracker(forest.Tracker):
             -self.items[h].should_punish_reason(previous_block, bits, self, known_txs)[0],
             -self.items[h].time_seen,
         ), h) for h in self.verified.tails.get(best_tail, []))
+        
         print 'init think get_best!'
+        print len(decorated_heads), 'heads. Top 10:'
+        for score, head_hash in decorated_heads[-10:]:
+            print '   ', format_hash(head_hash), format_hash(self.items[head_hash].previous_hash), score
+
         if p2pool.DEBUG:
             print len(decorated_heads), 'heads. Top 10:'
             for score, head_hash in decorated_heads[-10:]:
