@@ -565,6 +565,10 @@ class OkayTracker(forest.Tracker):
         
         # decide best tree
         decorated_tails = sorted((self.score(max(self.verified.tails[tail_hash], key=self.verified.get_work), block_rel_height_func), tail_hash) for tail_hash in self.verified.tails)
+        print len(decorated_tails), 'tails:'
+        for score, tail_hash in decorated_tails:
+            print format_hash(tail_hash), score
+
         if p2pool.DEBUG:
             print len(decorated_tails), 'tails:'
             for score, tail_hash in decorated_tails:
@@ -579,7 +583,6 @@ class OkayTracker(forest.Tracker):
             -self.items[h].time_seen,
         ), h) for h in self.verified.tails.get(best_tail, []))
         
-        print 'init think get_best!'
         print len(decorated_heads), 'heads. Top 10:'
         for score, head_hash in decorated_heads[-10:]:
             print '   ', format_hash(head_hash), format_hash(self.items[head_hash].previous_hash), score
