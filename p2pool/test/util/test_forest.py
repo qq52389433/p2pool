@@ -40,6 +40,7 @@ class DumbTracker(object):
         return item_hash
     
     def get_height(self, item_hash):
+        print 'init get_height_and_last :item_hash:'
         height, last = self.get_height_and_last(item_hash)
         return height
     
