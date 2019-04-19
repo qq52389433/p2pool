@@ -518,6 +518,7 @@ class OkayTracker(forest.Tracker):
         for head in set(self.heads) - set(self.verified.heads):
             head_height, last = self.get_height_and_last(head)
             
+            print 'init data - think - for head in set(self.heads) - set(self.verified.heads):'
             for share in self.get_chain(head, head_height if last is None else min(5, max(0, head_height - self.net.CHAIN_LENGTH))):
                 if self.attempt_verify(share):
                     break
@@ -548,6 +549,8 @@ class OkayTracker(forest.Tracker):
             head_height, last_hash = self.verified.get_height_and_last(head)
             last_height, last_last_hash = self.get_height_and_last(last_hash)
             # XXX review boundary conditions
+            print 'init data - think - for head in list(self.verified.heads):'
+
             want = max(self.net.CHAIN_LENGTH - head_height, 0)
             can = max(last_height - 1 - self.net.CHAIN_LENGTH, 0) if last_last_hash is not None else last_height
             get = min(want, can)
