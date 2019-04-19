@@ -1,5 +1,7 @@
+#coding=utf-8
 '''
 forest data structure
+forest 数据结构
 '''
 
 import itertools
