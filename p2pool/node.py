@@ -172,6 +172,7 @@ class Node(object):
         self.bitcoind = bitcoind
         self.net = net
         
+        print 'Node: try init p2pool_data.OkayTracker'
         self.tracker = p2pool_data.OkayTracker(self.net)
         
         for share in shares:
