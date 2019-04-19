@@ -214,7 +214,7 @@ class TrackerView(object):
             updates.append((delta.tail, delta))
             this_delta = self._get_delta(delta.tail)
             delta += this_delta
-             print 'init while delta.tail in self._tracker.items:'
+            print 'init while delta.tail in self._tracker.items:'
         for update_hash, delta_then in updates:
             self._set_delta(update_hash, delta - delta_then)
         return delta
