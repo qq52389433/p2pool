@@ -160,7 +160,7 @@ class TrackerView(object):
     
     
     def get_height(self, item_hash):
-        print 'init get_height ：get_delta_to_last \n'
+        print 'init get_height ：get_delta_to_last'
         return self.get_delta_to_last(item_hash).height
     
     def get_work(self, item_hash):
