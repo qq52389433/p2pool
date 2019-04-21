@@ -76,7 +76,6 @@ class Variable(object):
         if value == self.value:
             return
         
-        print 'share.value', value
         oldvalue = self.value
         self.value = value
         self.changed.happened(value)
