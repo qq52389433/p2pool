@@ -321,6 +321,7 @@ class Node(object):
         # 设置 share 的值
         self.best_share_var.set(best)
         print 'self.best_share_var.value !! : ', self.best_share_var.value
+        print 'best : ',best
         self.desired_var.set(desired)
         if self.p2p_node is not None:
             print 'set_best_share : self.p2p_node is not None'
