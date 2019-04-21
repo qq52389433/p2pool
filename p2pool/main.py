@@ -207,7 +207,7 @@ def main(args, net, datadir_path, merged_urls, worker_endpoint):
         node.tracker.verified.removed.watch(lambda share: ss.forget_verified_share(share.hash))
         
         def save_shares():
-            print 'init save_shares!!!'
+            print 'init save_shares!!!', node.best_share_var.value
             for share in node.tracker.get_chain(node.best_share_var.value, min(node.tracker.get_height(node.best_share_var.value), 2*net.CHAIN_LENGTH)):
                 ss.add_share(share)
                 print 'init save_shares!!! a '

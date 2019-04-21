@@ -176,6 +176,7 @@ class Node(object):
         print 'Node: try init p2pool_data.OkayTracker'
         self.tracker = p2pool_data.OkayTracker(self.net)
         
+        print 'node.shares: ', shares
         for share in shares:
             self.tracker.add(share)
         
