@@ -521,10 +521,10 @@ class OkayTracker(forest.Tracker):
         # if it fails, attempt on parent, and repeat
         # if no successful verification because of lack of parents, request parent
         # O（len（self.heads））
-        # 设置'unverified heads'未经验证的头部？
-        # 为每个整体头，尝试验证
-        # 如果失败，请尝试父级，然后重复
-        # 如果由于缺少父级而没有成功验证，请求父级
+        # 设置'unverified heads'未经验证的头部？
+        # 为每个整体头，尝试验证
+        # 如果失败，请尝试父级，然后重复
+        # 如果由于缺少父级而没有成功验证，请求父级
         bads = []
         for head in set(self.heads) - set(self.verified.heads):
             head_height, last = self.get_height_and_last(head)
