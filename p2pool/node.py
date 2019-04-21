@@ -311,6 +311,7 @@ class Node(object):
         t.start(10)
         stop_signal.watch(t.stop)
         
+        print 'start node deferral.RobustLoopingCall ： clean_tracker'
         t = deferral.RobustLoopingCall(self.clean_tracker)
         t.start(5)
         stop_signal.watch(t.stop)
