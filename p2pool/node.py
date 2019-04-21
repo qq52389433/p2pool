@@ -321,10 +321,14 @@ class Node(object):
         self.best_share_var.set(best)
         self.desired_var.set(desired)
         if self.p2p_node is not None:
+            print 'set_best_share : self.p2p_node is not None'
             for bad_peer_address in bad_peer_addresses:
                 # XXX O(n)
+                print 'set_best_share : for bad_peer_address in bad_peer_addresses'
                 for peer in self.p2p_node.peers.itervalues():
+                    print 'set_best_share : for peer in self.p2p_node.peers.itervalues()'
                     if peer.addr == bad_peer_address:
+                        print 'set_best_share : peer.addr == bad_peer_address', bad_peer_address
                         peer.badPeerHappened()
                         break
     

@@ -71,6 +71,7 @@ class Variable(object):
         self.changed = Event()
         self.transitioned = Event()
     
+    # 使用方法：self.best_share_var.set(best)
     def set(self, value):
         print 'init set_best_share.set!!!'
         if value == self.value:
