@@ -312,9 +312,11 @@ class Node(object):
         stop_signal.watch(t.stop)
         
         print 'start node : clean_tracker'
-        t = deferral.RobustLoopingCall(self.clean_tracker)
-        t.start(5)
-        stop_signal.watch(t.stop)
+        # 测试代码，斩杀取消循环clean_tracker
+        self.clean_tracker
+        #t = deferral.RobustLoopingCall(self.clean_tracker)
+        #t.start(5)
+        #stop_signal.watch(t.stop)
     
     # 设置 share
     def set_best_share(self):
