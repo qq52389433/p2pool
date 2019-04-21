@@ -461,6 +461,7 @@ class WorkerBridge(worker_interface.WorkerBridge):
                     self.my_doa_share_hashes.add(share.hash)
                 
                 self.node.tracker.add(share)
+                print 'set_best_share: by work !!!'
                 self.node.set_best_share()
                 
                 try:

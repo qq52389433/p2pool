@@ -47,6 +47,7 @@ class P2PNode(p2p.Node):
         self.node.known_txs_var.set(new_known_txs)
         
         if new_count:
+            print 'set_best_share : by new_count!!'
             self.node.set_best_share()
         
         if len(shares) > 5:
@@ -386,4 +387,5 @@ class Node(object):
             #end = time.time()
             #print "removed! %i %f" % (len(to_remove), (end - start)/len(to_remove))
         
+        print 'set_best_share : by node __ end!!'
         self.set_best_share()
