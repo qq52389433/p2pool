@@ -72,9 +72,11 @@ class Variable(object):
         self.transitioned = Event()
     
     def set(self, value):
+        print 'init set_best_share.set!!!'
         if value == self.value:
             return
         
+        print 'share.value', value
         oldvalue = self.value
         self.value = value
         self.changed.happened(value)
