@@ -322,6 +322,7 @@ class Node(object):
         self.desired_var.set(desired)
         if self.p2p_node is not None:
             print 'set_best_share : self.p2p_node is not None'
+
             for bad_peer_address in bad_peer_addresses:
                 # XXX O(n)
                 print 'set_best_share : for bad_peer_address in bad_peer_addresses'
