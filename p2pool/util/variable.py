@@ -81,6 +81,7 @@ class Variable(object):
         self.value = value
         self.changed.happened(value)
         self.transitioned.happened(oldvalue, value)
+        print 'share.value after happened:', self.value
     
     @defer.inlineCallbacks
     def get_when_satisfies(self, func):
