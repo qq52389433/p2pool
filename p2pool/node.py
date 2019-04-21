@@ -251,6 +251,7 @@ class Node(object):
         self.bitcoind_work.changed.watch(lambda _: self.set_best_share())
         print 'set_best_share : by node start!!!\n'
         self.set_best_share()
+        print 'self.best_share_var.value : ',self.best_share_var.value
         
         # setup p2p logic and join p2pool network
         
