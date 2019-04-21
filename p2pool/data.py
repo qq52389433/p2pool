@@ -1,3 +1,4 @@
+#coding=utf-8
 from __future__ import division
 
 import hashlib
@@ -20,6 +21,7 @@ def parse_bip0034(coinbase):
     return (bignum,)
 
 # hashlink
+# extra_data: 分叉点，但由于捐赠脚本在最后，const_ending足够长，总是让它变空
 
 hash_link_type = pack.ComposedType([
     ('state', pack.FixedStrType(32)),
@@ -39,7 +41,7 @@ def check_hash_link(hash_link, data, const_ending=''):
     assert len(extra) == extra_length
     return pack.IntType(256).unpack(hashlib.sha256(sha256.sha256(data, (hash_link['state'], extra, 8*hash_link['length'])).digest()).digest())
 
-# shares
+# shares 分享
 
 share_type = pack.ComposedType([
     ('type', pack.VarIntType()),
@@ -358,6 +360,7 @@ class BaseShare(object):
                     pass
                 elif type(self) is type(previous_share).SUCCESSOR:
                     # switch only valid if 60% of hashes in [self.net.CHAIN_LENGTH*9//10, self.net.CHAIN_LENGTH] for new version
+                    # switch仅在新版本的[self.net.CHAIN_LENGTH * 9 // 10，self.net.CHAIN_LENGTH]中有60％的哈希值时有效
                     if counts.get(self.VERSION, 0) < sum(counts.itervalues())*60//100:
                         raise p2p.PeerMisbehavingError('switch without enough hash power upgraded')
                 else:
@@ -394,9 +397,11 @@ class BaseShare(object):
     def _get_other_txs(self, tracker, known_txs):
         other_tx_hashes = self.get_other_tx_hashes(tracker)
         if other_tx_hashes is None:
+            # 并非所有tx都存在
             return None # not all parents present
         
         if not all(tx_hash in known_txs for tx_hash in other_tx_hashes):
+            # 并非所有tx都存在
             return None # not all txs present
         
         return [known_txs[tx_hash] for tx_hash in other_tx_hashes]
@@ -426,6 +431,7 @@ class BaseShare(object):
     def as_block(self, tracker, known_txs):
         other_txs = self._get_other_txs(tracker, known_txs)
         if other_txs is None:
+            # 并非所有tx都存在
             return None # not all txs present
         return dict(header=self.header, txs=[self.check(tracker, other_txs)] + other_txs)
 
@@ -514,6 +520,11 @@ class OkayTracker(forest.Tracker):
         # for each overall head, attempt verification
         # if it fails, attempt on parent, and repeat
         # if no successful verification because of lack of parents, request parent
+        # O（len（self.heads））
+        # 设置'unverified heads'未经验证的头部？
+        # 为每个整体头，尝试验证
+        # 如果失败，请尝试父级，然后重复
+        # 如果由于缺少父级而没有成功验证，请求父级
         bads = []
         for head in set(self.heads) - set(self.verified.heads):
             head_height, last = self.get_height_and_last(head)

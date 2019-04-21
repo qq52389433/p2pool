@@ -118,6 +118,7 @@ class TrackerView(object):
             return
         
         # move delta refs referencing children down to this, so they can be moved up in one step
+        # 移动delta refs引用子级到这个，所以它们可以一步向上移动
         for x in list(self._reverse_deltas.get(self._reverse_delta_refs.get(delta.head, object()), set())):
             self.get_last(x)
         
@@ -127,6 +128,7 @@ class TrackerView(object):
             return
         
         # move ref pointing to this up
+        # 移动ref指向这个
         
         ref = self._reverse_delta_refs[delta.tail]
         cur_delta = self._delta_refs[ref]
@@ -152,6 +154,7 @@ class TrackerView(object):
         delta = self._delta_type.from_element(item)
         
         # delete delta entry and ref if it is empty
+        # 删除delta条目，如果为空，则删除ref
         if delta.head in self._deltas:
             delta1, ref = self._deltas.pop(delta.head)
             self._reverse_deltas[ref].remove(delta.head)
@@ -301,7 +304,7 @@ class Tracker(object):
             tail = self.heads.pop(delta.head)
             self.tails[tail].remove(delta.head)
             if self.reverse[delta.tail] != set([delta.head]):
-                pass # has sibling
+                pass # has sibling 有兄弟姐妹
             else:
                 self.tails[tail].add(delta.tail)
                 self.heads[delta.tail] = tail
@@ -344,6 +347,7 @@ class Tracker(object):
         height, last = self.get_height_and_last(item_hash)
         child_height, child_last = self.get_height_and_last(possible_child_hash)
         if child_last != last:
+            # 没有连接，所以无法确定
             return None # not connected, so can't be determined
         height_up = child_height - height
         return height_up >= 0 and self.get_nth_parent_hash(possible_child_hash, height_up) == item_hash
@@ -351,6 +355,7 @@ class Tracker(object):
 class SubsetTracker(Tracker):
     def __init__(self, subset_of, **kwargs):
         Tracker.__init__(self, **kwargs)
+        # 覆盖Tracker .__ init__
         self.get_nth_parent_hash = subset_of.get_nth_parent_hash # overwrites Tracker.__init__'s
         self._subset_of = subset_of
     

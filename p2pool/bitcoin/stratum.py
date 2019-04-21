@@ -1,3 +1,4 @@
+#coding=utf-8
 import random
 import sys
 
@@ -35,6 +36,7 @@ class StratumRPCMiningProvider(object):
     
     def _send_work(self):
         try:
+            #调用/p2pool/bitcoin/worker_interface.py 下的 get_work(self, *args): 函数
             x, got_response = self.wb.get_work(*self.wb.preprocess_request('' if self.username is None else self.username))
         except:
             log.err()

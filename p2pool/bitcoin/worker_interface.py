@@ -1,3 +1,5 @@
+#coding=utf-8
+# 工作接口
 from __future__ import division
 
 import StringIO
@@ -127,6 +129,7 @@ class CachingWorkerBridge(object):
             self._times = self.new_work_event.times
         
         if args not in self._cache:
+            # 调用p2pool/work.py 下面的 get_work 函数
             x, handler = self._inner.get_work(*args)
             self._cache[args] = x, handler, 0
         

@@ -1,3 +1,4 @@
+#coding=utf-8
 import random
 import sys
 import time
@@ -194,7 +195,7 @@ class Node(object):
         
         self.bitcoind_work = variable.Variable((yield helper.getwork(self.bitcoind)))
         @defer.inlineCallbacks
-        def work_poller():
+        def work_poller(): #工作调查员
             while stop_signal.times == 0:
                 print 'new_block.get_deferred'
                 flag = self.factory.new_block.get_deferred()
@@ -247,6 +248,7 @@ class Node(object):
         self.best_share_var = variable.Variable(None)
         self.desired_var = variable.Variable(None)
         self.bitcoind_work.changed.watch(lambda _: self.set_best_share())
+        print 'set_best_share : by node start!!!\n'
         self.set_best_share()
         
         # setup p2p logic and join p2pool network

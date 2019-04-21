@@ -1,3 +1,4 @@
+#coding=utf-8
 import itertools
 import weakref
 
@@ -46,6 +47,7 @@ class Event(object):
         if once is not None:
             once.happened(*event)
     
+    # 获取延期
     def get_deferred(self, timeout=None):
         print 'init get_deferred'
         once = self.once
@@ -62,6 +64,7 @@ class Event(object):
             x = once.watch(lambda *event: delay.cancel())
         return df
 
+# 变量
 class Variable(object):
     def __init__(self, value):
         self.value = value

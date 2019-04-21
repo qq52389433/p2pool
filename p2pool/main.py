@@ -1,3 +1,4 @@
+#coding=utf-8
 from __future__ import division
 
 import base64
@@ -74,28 +75,33 @@ class keypool():
 @defer.inlineCallbacks
 def main(args, net, datadir_path, merged_urls, worker_endpoint):
     try:
+        # 获取钱包版本
         print 'p2pool (version %s)' % (p2pool.__version__,)
         print
         
         @defer.inlineCallbacks
         def connect_p2p():
             # connect to bitcoind over bitcoin-p2p
+            # 通过bitcoin-p2p连接到bitcoind
             print '''Testing bitcoind P2P connection to '%s:%s'...''' % (args.bitcoind_address, args.bitcoind_p2p_port)
             factory = bitcoin_p2p.ClientFactory(net.PARENT)
             reactor.connectTCP(args.bitcoind_address, args.bitcoind_p2p_port, factory)
             def long():
                 print '''    ...taking a while. Common reasons for this include all of bitcoind's connection slots being used...'''
             long_dc = reactor.callLater(5, long)
+            # 等到握手成功
             yield factory.getProtocol() # waits until handshake is successful
             if not long_dc.called: long_dc.cancel()
             print '    ...success!'
             print
             defer.returnValue(factory)
         
+        # 首先建立p2p连接，如果是testnet，那么bitcoind可以在没有连接的情况下工作
         if args.testnet: # establish p2p connection first if testnet so bitcoind can work without connections
             factory = yield connect_p2p()
         
         # connect to bitcoind over JSON-RPC and do initial getmemorypool
+        # 通过JSON-RPC连接到bitcoind并执行初始getmemorypool
         url = '%s://%s:%i/' % ('https' if args.bitcoind_rpc_ssl else 'http', args.bitcoind_address, args.bitcoind_rpc_port)
         print '''Testing bitcoind RPC connection to '%s' with username '%s'...''' % (url, args.bitcoind_rpc_username)
         bitcoind = jsonrpc.HTTPProxy(url, dict(Authorization='Basic ' + base64.b64encode(args.bitcoind_rpc_username + ':' + args.bitcoind_rpc_password)), timeout=30)
@@ -109,6 +115,7 @@ def main(args, net, datadir_path, merged_urls, worker_endpoint):
         yield poll_warnings()
         deferral.RobustLoopingCall(poll_warnings).start(20*60)
         
+        # 获取当前块哈希和当前块高度
         print '    ...success!'
         print '    Current block hash: %x' % (temp_work['previous_block'],)
         print '    Current block height: %i' % (temp_work['height'] - 1,)
@@ -117,6 +124,7 @@ def main(args, net, datadir_path, merged_urls, worker_endpoint):
         if not args.testnet:
             factory = yield connect_p2p()
         
+        # 确定支付地址
         print 'Determining payout address...'
         pubkeys = keypool()
         if args.pubkey_hash is None and args.address != 'dynamic':
@@ -169,8 +177,10 @@ def main(args, net, datadir_path, merged_urls, worker_endpoint):
             for i in range(len(pubkeys.keys)):
                 print '    ...payout %d: %s' % (i, bitcoin_data.pubkey_hash_to_address(pubkeys.keys[i], net.PARENT),)
         
+        # 加载 shares
         print "Loading shares..."
         shares = {}
+        # 初始化已知的验证
         known_verified = set()
         def share_cb(share):
             share.time_seen = 0 # XXX
@@ -181,7 +191,7 @@ def main(args, net, datadir_path, merged_urls, worker_endpoint):
         print "    ...done loading %i shares (%i verified)!" % (len(shares), len(known_verified))
         print
         
-        
+        # 初始化工作
         print 'Initializing work...'
         
         node = p2pool_node.Node(factory, bitcoind, shares.values(), known_verified, net)
@@ -212,7 +222,7 @@ def main(args, net, datadir_path, merged_urls, worker_endpoint):
         print '    ...success!'
         print
         
-        
+        # 使用xxxx端口加入p2pool网络
         print 'Joining p2pool network using port %i...' % (args.p2pool_port,)
         
         @defer.inlineCallbacks
@@ -282,7 +292,8 @@ def main(args, net, datadir_path, merged_urls, worker_endpoint):
             upnp_thread()
         
         # start listening for workers with a JSON-RPC server
-        
+        # 开始使用JSON-RPC服务器监听服务
+
         print 'Listening for workers on %r port %i...' % (worker_endpoint[0], worker_endpoint[1])
         
         wb = work.WorkerBridge(node, my_pubkey_hash, args.donation_percentage, merged_urls, args.worker_fee, args, pubkeys, bitcoind)
@@ -304,6 +315,8 @@ def main(args, net, datadir_path, merged_urls, worker_endpoint):
         # done!
         print 'Started successfully!'
         print 'Go to http://127.0.0.1:%i/ to view graphs and statistics!' % (worker_endpoint[1],)
+       
+        # 将0.0％的工作捐赠给P2Pool的开发。 请捐赠以鼓励进一步开发P2Pool！
         if args.donation_percentage > 1.1:
             print '''Donating %.1f%% of work towards P2Pool's development. Thanks for the tip!''' % (args.donation_percentage,)
         elif args.donation_percentage < .9:
