@@ -33,13 +33,13 @@ class P2PNode(p2p.Node):
                 all_new_txs.update((bitcoin_data.hash256(bitcoin_data.tx_type.pack(new_tx)), new_tx) for new_tx in new_txs)
             
             if share.hash in self.node.tracker.items:
-                #print 'Got duplicate share, ignoring. Hash: %s' % (p2pool_data.format_hash(share.hash),)
+                print 'Got duplicate share, ignoring. Hash: %s' % (p2pool_data.format_hash(share.hash),)
                 continue
             
             new_count += 1
             
-            #print 'Received share %s from %r' % (p2pool_data.format_hash(share.hash), share.peer_addr)
-            
+            print 'Received share %s from %r' % (p2pool_data.format_hash(share.hash), share.peer_addr)
+            print 'tracker.add by Received share!'
             self.node.tracker.add(share)
         
         new_known_txs = dict(self.node.known_txs_var.value)
@@ -177,7 +177,7 @@ class Node(object):
         print 'Node: try init p2pool_data.OkayTracker'
         self.tracker = p2pool_data.OkayTracker(self.net)
         
-        print 'node.shares: ', shares
+        print 'tracker.add node.shares: ', shares
         for share in shares:
             self.tracker.add(share)
         

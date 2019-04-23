@@ -62,6 +62,7 @@ class HeightTracker(object):
             if hw.hash in self._tracker.items:
                 continue
             changed = True
+            print 'tracker.add by _heard_headers!'
             self._tracker.add(hw)
         if changed:
             self.updated.happened()

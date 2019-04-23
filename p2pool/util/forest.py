@@ -264,6 +264,7 @@ class Tracker(object):
             raise ValueError('item already present')
         
         if delta.head in self.tails:
+            # pop: 该方法返回从列表中移除的元素对象。
             heads = self.tails.pop(delta.head)
         else:
             heads = set([delta.head])

@@ -460,6 +460,7 @@ class WorkerBridge(worker_interface.WorkerBridge):
                 if not on_time:
                     self.my_doa_share_hashes.add(share.hash)
                 
+                print 'tracker.add by work !!!'
                 self.node.tracker.add(share)
                 print 'set_best_share: by work !!!'
                 self.node.set_best_share()
