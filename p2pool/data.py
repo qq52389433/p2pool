@@ -496,7 +496,9 @@ class OkayTracker(forest.Tracker):
         )), subset_of=self)
         self.get_cumulative_weights = WeightsSkipList(self)
     
+    # 尝试验证
     def attempt_verify(self, share):
+        print 'init pre verified.add : attempt_verify'
         if share.hash in self.verified.items:
             return True
         height, last = self.get_height_and_last(share.hash)
@@ -526,6 +528,8 @@ class OkayTracker(forest.Tracker):
         # 如果失败，请尝试父级，然后重复
         # 如果由于缺少父级而没有成功验证，请求父级
         bads = []
+        print 'init think !! self.heads: ',self.heads
+        print 'self.verified.heads', self.verified.heads
         for head in set(self.heads) - set(self.verified.heads):
             head_height, last = self.get_height_and_last(head)
             
