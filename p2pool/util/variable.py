@@ -73,17 +73,17 @@ class Variable(object):
     
     # 使用方法：self.best_share_var.set(best)
     def set(self, value):
-        print 'init set_best_share.set!!!'
+        #print 'init set_best_share.set!!!'
         if value == self.value:
             return
         
-        print 'share.value before happened:', self.value
-        print 'value:', value
+        #print 'share.value before happened:', self.value
+        #print 'value:', value
         oldvalue = self.value
         self.value = value
         self.changed.happened(value)
         self.transitioned.happened(oldvalue, value)
-        print 'share.value after happened:', self.value
+        #print 'share.value after happened:', self.value
     
     @defer.inlineCallbacks
     def get_when_satisfies(self, func):
