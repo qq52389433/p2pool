@@ -578,6 +578,7 @@ class OkayTracker(forest.Tracker):
                 ))
         
         # decide best tree
+        # 决定最好的树,Tracker
         decorated_tails = sorted((self.score(max(self.verified.tails[tail_hash], key=self.verified.get_work), block_rel_height_func), tail_hash) for tail_hash in self.verified.tails)
         print len(decorated_tails), 'tails:'
         for score, tail_hash in decorated_tails:
@@ -590,6 +591,7 @@ class OkayTracker(forest.Tracker):
         best_tail_score, best_tail = decorated_tails[-1] if decorated_tails else (None, None)
         
         # decide best verified head
+        # 决定最好的区块头部,verified:验证,tails:尾巴
         decorated_heads = sorted(((
             self.verified.get_work(self.verified.get_nth_parent_hash(h, min(5, self.verified.get_height(h)))),
             #self.items[h].peer_addr is None,
@@ -597,6 +599,7 @@ class OkayTracker(forest.Tracker):
             -self.items[h].time_seen,
         ), h) for h in self.verified.tails.get(best_tail, []))
         
+
         print len(decorated_heads), 'heads. Top 10:'
         for score, head_hash in decorated_heads[-10:]:
             print '   ', format_hash(head_hash), format_hash(self.items[head_hash].previous_hash), score
@@ -605,6 +608,7 @@ class OkayTracker(forest.Tracker):
             print len(decorated_heads), 'heads. Top 10:'
             for score, head_hash in decorated_heads[-10:]:
                 print '   ', format_hash(head_hash), format_hash(self.items[head_hash].previous_hash), score
+        # 在最新的区块头部里面获取best,在通过best获取best_share
         best_head_score, best = decorated_heads[-1] if decorated_heads else (None, None)
         
         if best is not None:

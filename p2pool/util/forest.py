@@ -228,13 +228,14 @@ class TrackerView(object):
         assert self._tracker.is_child_of(ancestor, item)
         return self.get_delta_to_last(item) - self.get_delta_to_last(ancestor)
 
+#跟踪器
 class Tracker(object):
     def __init__(self, items=[], delta_type=AttributeDelta):
         self.items = {} # hash -> item
         self.reverse = {} # delta.tail -> set of item_hashes
         
         self.heads = {} # head hash -> tail_hash
-        self.tails = {} # tail hash -> set of head hashes
+        self.tails = {} # tail hash -> set of head hashes,一组头部哈希
         
         self.added = variable.Event()
         self.remove_special = variable.Event()
@@ -255,6 +256,7 @@ class Tracker(object):
         return attr
     
     def add(self, item):
+        print 'init Tracker.add !!!!'
         assert not isinstance(item, (int, long, type(None)))
         delta = self._delta_type.from_element(item)
         
