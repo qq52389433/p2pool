@@ -484,6 +484,7 @@ class WeightsSkipList(forest.TrackerSkipList):
         assert share_count == max_shares or total_weight == desired_weight
         return math.add_dicts(*math.flatten_linked_list(weights_list)), total_weight, total_donation_weight
 
+#已验证的Tracker
 class OkayTracker(forest.Tracker):
     def __init__(self, net):
         forest.Tracker.__init__(self, delta_type=forest.get_attributedelta_type(dict(forest.AttributeDelta.attrs,

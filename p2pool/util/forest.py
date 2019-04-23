@@ -354,6 +354,7 @@ class Tracker(object):
         height_up = child_height - height
         return height_up >= 0 and self.get_nth_parent_hash(possible_child_hash, height_up) == item_hash
 
+#跟踪器包括未验证和已验证的Tracker
 class SubsetTracker(Tracker):
     def __init__(self, subset_of, **kwargs):
         Tracker.__init__(self, **kwargs)
