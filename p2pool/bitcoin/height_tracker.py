@@ -1,3 +1,4 @@
+#coding=utf-8
 from twisted.internet import defer
 from twisted.python import log
 
@@ -17,7 +18,8 @@ class HeaderWrapper(object):
 
 class HeightTracker(object):
     '''Point this at a factory and let it take care of getting block heights'''
-    
+    #在工厂指出这一点，让它来保管区块高度
+
     def __init__(self, best_block_func, factory, backlog_needed):
         self._best_block_func = best_block_func
         self._factory = factory

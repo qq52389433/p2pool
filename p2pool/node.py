@@ -38,6 +38,7 @@ class P2PNode(p2p.Node):
             
             new_count += 1
             
+            #从其他节点接收share
             print 'Received share %s from %r' % (p2pool_data.format_hash(share.hash), share.peer_addr)
             print 'tracker.add by Received share!'
             self.node.tracker.add(share)
@@ -167,7 +168,7 @@ class P2PNode(p2p.Node):
             spread()
             reactor.callLater(5, spread) # so get_height_rel_highest can update
         
-
+# 节点
 class Node(object):
     def __init__(self, factory, bitcoind, shares, known_verified_share_hashes, net):
         self.factory = factory
@@ -177,6 +178,7 @@ class Node(object):
         print 'Node: try init p2pool_data.OkayTracker'
         self.tracker = p2pool_data.OkayTracker(self.net)
         
+        # 初始化shares
         print 'tracker.add node.shares: ', shares
         for share in shares:
             self.tracker.add(share)
