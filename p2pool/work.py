@@ -347,7 +347,7 @@ class WorkerBridge(worker_interface.WorkerBridge):
         
         if desired_pseudoshare_target is None:
             # target,决定了挖矿难度，默认是2**256-1 = Difficulty 4.1k
-            target = 2**256-1
+            target = 2**16-1
             local_hash_rate = self._estimate_local_hash_rate()
             if local_hash_rate is not None:
                 target = min(target,
