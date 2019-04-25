@@ -131,6 +131,7 @@ class CachingWorkerBridge(object):
         if args not in self._cache:
             # 调用p2pool/work.py 下面的 get_work 函数
             x, handler = self._inner.get_work(*args)
+            print 'return worker_interface.get_work back!!'
             self._cache[args] = x, handler, 0
         
         x, handler, nonce = self._cache.pop(args)
@@ -143,4 +144,5 @@ class CachingWorkerBridge(object):
         if nonce + 1 != 2**self._my_bits:
             self._cache[args] = x, handler, nonce + 1
         
+        print 'return worker_interface.get_work res , header is in res!!'
         return res
