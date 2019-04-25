@@ -346,6 +346,7 @@ class WorkerBridge(worker_interface.WorkerBridge):
         mm_later = [(dict(aux_work, target=aux_work['target'] if aux_work['target'] != 'p2pool' else share_info['bits'].target), index, hashes) for aux_work, index, hashes in mm_later]
         
         if desired_pseudoshare_target is None:
+            # target,决定了挖矿难度，默认是2**256-1 = Difficulty 4.1k
             target = 2**256-1
             local_hash_rate = self._estimate_local_hash_rate()
             if local_hash_rate is not None:
