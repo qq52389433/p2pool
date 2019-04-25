@@ -23,8 +23,8 @@ PREFIX = '2472ef181efcd37b'.decode('hex')
 P2P_PORT = 9333
 # 难度设置
 MIN_TARGET = 0
-#MAX_TARGET = 2**256//2**32 - 1
-MAX_TARGET = 1000 #2**48//2**32 - 1
+MAX_TARGET = 2**256//2**32 - 1
+#MAX_TARGET = 1000 #2**48//2**32 - 1
 # shares 下载开关,当有其他节点一直在打开的时候，可以开启
 PERSIST = False 
 WORKER_PORT = 9332
