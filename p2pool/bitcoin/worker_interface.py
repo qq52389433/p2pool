@@ -144,5 +144,5 @@ class CachingWorkerBridge(object):
         if nonce + 1 != 2**self._my_bits:
             self._cache[args] = x, handler, nonce + 1
         
-        print 'return worker_interface.get_work res , header is in res!!'
+        print 'return worker_interface.get_work res , header(share) is in res!!'
         return res
