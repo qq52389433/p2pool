@@ -252,6 +252,7 @@ class WorkerBridge(worker_interface.WorkerBridge):
         if set(r[1:] if r.startswith('!') else r for r in self.node.bitcoind_work.value['rules']) - set(getattr(self.node.net, 'SOFTFORKS_REQUIRED', [])):
             raise jsonrpc.Error_for_code(-12345)(u'unknown rule activated')
         
+        print 'init get_work a'
         if self.merged_work.value:
             tree, size = bitcoin_data.make_auxpow_tree(self.merged_work.value)
             mm_hashes = [self.merged_work.value.get(tree.get(i), dict(hash=0))['hash'] for i in xrange(size)]
@@ -265,6 +266,7 @@ class WorkerBridge(worker_interface.WorkerBridge):
             mm_data = ''
             mm_later = []
         
+        print 'init get_work b'
         tx_hashes = [bitcoin_data.hash256(bitcoin_data.tx_type.pack(tx)) for tx in self.current_work.value['transactions']]
         tx_map = dict(zip(tx_hashes, self.current_work.value['transactions']))
         
@@ -491,4 +493,5 @@ class WorkerBridge(worker_interface.WorkerBridge):
             
             return on_time
         
+        print 'start return ba, got_response !!'
         return ba, got_response
